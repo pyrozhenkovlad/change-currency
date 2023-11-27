@@ -1,0 +1,19 @@
+
+.footer-container {
+    height: 100px;
+    display: grid;
+    place-content: center;
+}
+
+@media screen and (max-width: 768px) {
+    .footer-container {
+        height: 50px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .footer-container {
+        height: 25px;
+    }
+}
+

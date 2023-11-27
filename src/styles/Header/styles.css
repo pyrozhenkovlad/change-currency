@@ -1,0 +1,6 @@
+
+.header-container {
+    height: 100px;
+    display: grid;
+    place-content: center;
+}
