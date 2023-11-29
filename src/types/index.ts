@@ -5,3 +5,11 @@ export type Currency = {
   sale: string;
 };
 
+export type baseCurrencyType = {
+  value: number;
+  ccy: string;
+};
+
+export type CurrencyPairType = Currency & {
+  value: number;
+};

@@ -1,75 +1,143 @@
-import { useEffect, useState } from "react";
-import "../../styles/Exchanger/styles.css";
-import { Currency } from "../../types";
-import CurrencyPair from "./CurrencyPair";
+import { useEffect } from "react";
 import Swap from "../../assets/svg/Swap";
+import "../../styles/Exchanger/styles.css";
+import { Currency, CurrencyPairType, baseCurrencyType } from "../../types";
+import { useExchangeStore } from "../../utils/exchangeStore";
+import CurrencyPair from "./CurrencyPair";
 
-export type CurrencyPairType = {
-  ccy: string;
-  buy: string;
-  sale: string;
-  value: number;
-  type: string;
-};
 export const Exchanger = ({ currencies }: { currencies: Currency[] }) => {
-  const [fromPair, setFromPair] = useState<CurrencyPairType>({
-    ccy: "UAH",
-    value: 1,
-    type: "from",
-    buy: "1",
-    sale: "1",
-  });
-  const [toPair, setToPair] = useState<CurrencyPairType>({
-    ccy: "USD",
-    value: 1,
-    type: "to",
-    buy: "1",
-    sale: "1",
-  });
+  const exchangeState = useExchangeStore();
 
-  useEffect(() => {
-    setToPair({
-      ...currencies[0],
-      value: 1,
-      type: "to",
-    });
-  }, [currencies]);
+  const handleSwap = () => {
+    const order = exchangeState.exchangeOrder;
+    switch (order) {
+      case "buy":
+        exchangeState.setExchangeOrder("sale");
+        break;
+      case "sale":
+        exchangeState.setExchangeOrder("buy");
+        break;
+    }
+  };
 
-  const calculateValues = () => {
-    if (fromPair.ccy === "UAH") {
-      return {
-        from: fromPair.value,
-        to: fromPair.value * Number(toPair.buy),
-      };
+  const calculate = (
+    type: "base" | "exchange" | "select",
+    baseCurrencyValue: number,
+    exchangeCurrencyValue: number,
+    selectExchangeCurrency?: CurrencyPairType
+  ) => {
+    switch (type) {
+      case "base": {
+        exchangeState.calculateBaseCurrencyChange(
+          { ...exchangeState.baseCurrency, value: baseCurrencyValue },
+          exchangeState.exchangeCurrency,
+          exchangeState.exchangeOrder
+        );
+        break;
+      }
+      case "exchange": {
+        exchangeState.calculateExchangeCurrencyChange(
+          exchangeState.baseCurrency,
+          { ...exchangeState.exchangeCurrency, value: exchangeCurrencyValue },
+          exchangeState.exchangeOrder
+        );
+        break;
+      }
+      case "select": {
+        exchangeState.calculateExchangeCurrencyChange(
+          exchangeState.baseCurrency,
+          { ...selectExchangeCurrency!, value: exchangeCurrencyValue },
+          exchangeState.exchangeOrder
+        );
+        break;
+      }
     }
   };
 
   useEffect(() => {
-    console.log("fromPair", fromPair);
-    console.log("toPair", toPair);
-  }, [toPair, fromPair]);
+    calculate(
+      "base",
+      exchangeState.baseCurrency.value,
+      exchangeState.exchangeCurrency.value
+    );
+  }, [currencies]);
 
-  const handleSwap = () => {
-    setFromPair({ ...toPair, type: "from" });
-    setToPair({ ...fromPair, type: "to" });
+  useEffect(() => {
+    console.log(exchangeState);
+  }, [exchangeState]);
+
+  const handleValueChange = (
+    value: number | null,
+    pair: CurrencyPairType | baseCurrencyType
+  ) => {
+    if (pair.ccy === "UAH") {
+      exchangeState.setBaseCurrency({ ...pair, value: value ? value : 0 });
+      calculate(
+        "base",
+        value ? value : 0,
+        exchangeState.exchangeCurrency.value
+      );
+    } else {
+      const changedPair = pair as CurrencyPairType;
+      exchangeState.setExchangeCurrency({
+        ...changedPair,
+        value: value ? value : 0,
+      });
+      calculate(
+        "exchange",
+        exchangeState.baseCurrency.value,
+        value ? value : 0
+      );
+    }
+  };
+
+  const handleSelectChange = (
+    selectValue: string,
+    pair: CurrencyPairType | baseCurrencyType
+  ) => {
+    if (selectValue === "UAH") {
+      handleSwap();
+    } else {
+      const newPair = currencies.find(
+        (currency) => currency.ccy === selectValue
+      ) as CurrencyPairType;
+      exchangeState.setExchangeCurrency({
+        ...newPair,
+        value: pair.value,
+      });
+      calculate("select", exchangeState.baseCurrency.value, pair.value, {
+        ...newPair,
+        value: pair.value,
+      });
+    }
   };
 
   return (
     <div className="exchanger-container">
       <CurrencyPair
-        pair={fromPair}
-        setPair={setFromPair}
+        pair={
+          exchangeState.exchangeOrder === "buy"
+            ? exchangeState.baseCurrency
+            : exchangeState.exchangeCurrency
+        }
         type="from"
         currencies={currencies}
+        handleSelectChange={handleSelectChange}
+        handleValueChange={handleValueChange}
       />
       <div onClick={handleSwap} style={{ cursor: "pointer" }}>
         <Swap />
       </div>
       <CurrencyPair
-        pair={toPair}
-        setPair={setToPair}
+        pair={
+          exchangeState.exchangeOrder === "buy"
+            ? exchangeState.exchangeCurrency
+            : exchangeState.baseCurrency
+        }
         type="to"
         currencies={currencies}
+        handleSelectChange={handleSelectChange}
+        handleValueChange={handleValueChange}
       />
     </div>
   );

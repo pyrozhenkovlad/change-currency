@@ -3,6 +3,7 @@ import { Currency } from "../types";
 import { fetcher } from "../api";
 import { useCurrencyStore } from "../utils/currenciesStore";
 import { useEffect } from "react";
+import { useExchangeStore } from "../utils/exchangeStore";
 
 export const useCurrencies = () => {
   const { data, error } = useSWR<Currency[]>(
@@ -11,6 +12,9 @@ export const useCurrencies = () => {
   );
 
   const setCurrencies = useCurrencyStore((state) => state.setCurrencies);
+  const setExchangeCurrency = useExchangeStore(
+    (state) => state.setExchangeCurrency
+  );
 
   useEffect(() => {
     if (data) {
@@ -22,8 +26,9 @@ export const useCurrencies = () => {
         };
       });
       setCurrencies(formatedData);
+      setExchangeCurrency({ ...formatedData[0], value: 1 });
     }
-  }, [data, setCurrencies]);
+  }, [data, setCurrencies, setExchangeCurrency]);
 
   return {
     isLoading: !error && !data,

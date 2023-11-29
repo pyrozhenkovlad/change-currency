@@ -1,22 +1,29 @@
 import { InputNumber, Select } from "antd";
 import "../../../styles/CurrencyPair/styles.css";
-import { Currency } from "../../../types";
-import { CurrencyPairType } from "../Exchanger";
+import { Currency, CurrencyPairType, baseCurrencyType } from "../../../types";
+
 
 type CurrencyPairProps = {
-  pair: CurrencyPairType;
+  pair: CurrencyPairType | baseCurrencyType;
   type: "from" | "to";
   currencies: Currency[];
-  setPair: React.Dispatch<React.SetStateAction<CurrencyPairType>>;
+  handleValueChange: (
+    value: number | null,
+    pair: CurrencyPairType | baseCurrencyType
+  ) => void;
+  handleSelectChange: (
+    value: string,
+    pair: CurrencyPairType | baseCurrencyType
+  ) => void;
 };
 
 export const CurrencyPair = ({
   pair,
-  setPair,
   type,
   currencies,
+  handleValueChange,
+  handleSelectChange,
 }: CurrencyPairProps) => {
-
   const handleOptions = () => {
     const options = [];
     if (pair.ccy === "UAH") {
@@ -41,18 +48,13 @@ export const CurrencyPair = ({
     return options;
   };
 
-  const handleSelectChange = (value: string) => {
-    setPair((prev: CurrencyPairType) => ({
-      ...prev,
-      ccy: value,
-    }));
+  const handleCurrencyValue = (value: number | null) => {
+    const currencyValue = value ? value : 0;
+    handleValueChange(currencyValue, pair);
   };
 
-  const handleValueChange = (value: number | null) => {
-    setPair((prev: CurrencyPairType) => ({
-      ...prev,
-      value: value ? Number(value) : 0,
-    }));
+  const handleCurrencySelect = (value: string) => {
+    handleSelectChange(value, pair);
   };
 
   return (
@@ -62,11 +64,11 @@ export const CurrencyPair = ({
         controls={false}
         min={0}
         max={1000000000}
-        onChange={handleValueChange}
+        onChange={handleCurrencyValue}
       />
       <Select
         options={handleOptions()}
-        onChange={handleSelectChange}
+        onChange={handleCurrencySelect}
         value={pair.ccy}
         placement="topLeft"
       />
