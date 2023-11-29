@@ -7,7 +7,7 @@ import { useExchangeStore } from "../utils/exchangeStore";
 
 export const useCurrencies = () => {
   const { data, error } = useSWR<Currency[]>(
-    process.env.REACT_APP_API_BASE_URL,
+    "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=4",
     fetcher
   );
 
