@@ -4,3 +4,4 @@ export type Currency = {
   buy: string;
   sale: string;
 };
+

@@ -14,7 +14,14 @@ export const useCurrencies = () => {
 
   useEffect(() => {
     if (data) {
-      setCurrencies(data);
+      const formatedData = data.map((currency) => {
+        return {
+          ...currency,
+          buy: Number(currency.buy).toFixed(2),
+          sale: Number(currency.sale).toFixed(2),
+        };
+      });
+      setCurrencies(formatedData);
     }
   }, [data, setCurrencies]);
 

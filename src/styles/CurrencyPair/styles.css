@@ -1,0 +1,4 @@
+.pair-container {
+    display: flex;
+    column-gap: 5vw;
+}

@@ -1,11 +1,13 @@
 .layout-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .children-container {
-    display: grid;
-    place-content: center;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10vw;
+  padding-left: 10vw;
 }
