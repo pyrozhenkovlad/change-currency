@@ -1,4 +1,6 @@
 .pair-container {
-    display: flex;
-    column-gap: 5vw;
+  display: flex;
+  align-items: center;
+  column-gap: 3vw;
 }
+

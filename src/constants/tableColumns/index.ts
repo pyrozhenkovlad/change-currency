@@ -6,6 +6,7 @@ export const tableColumns: ColumnsType<Currency> = [
     title: `Currency /   ${new Date().toLocaleDateString()}`,
     dataIndex: "ccy",
     key: "ccy",
+    align: "center",
     render: (_, currency: Currency) => {
       return `${currency.ccy}/${currency.base_ccy}`;
     },
@@ -14,10 +15,12 @@ export const tableColumns: ColumnsType<Currency> = [
     title: "Buy",
     dataIndex: "buy",
     key: "buy",
+    align: "center",
   },
   {
     title: "Sell",
     dataIndex: "sale",
     key: "sale",
+    align: "center",
   },
 ];

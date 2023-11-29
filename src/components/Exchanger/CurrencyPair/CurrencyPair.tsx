@@ -1,8 +1,7 @@
-import { useEffect } from "react";
+import { InputNumber, Select } from "antd";
+import "../../../styles/CurrencyPair/styles.css";
 import { Currency } from "../../../types";
 import { CurrencyPairType } from "../Exchanger";
-import { Select } from "antd";
-import "../../../styles/CurrencyPair/styles.css";
 
 type CurrencyPairProps = {
   pair: CurrencyPairType;
@@ -17,9 +16,6 @@ export const CurrencyPair = ({
   type,
   currencies,
 }: CurrencyPairProps) => {
-  useEffect(() => {
-    console.log("pair", pair);
-  }, [pair]);
 
   const handleOptions = () => {
     const options = [];
@@ -52,25 +48,27 @@ export const CurrencyPair = ({
     }));
   };
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (value: number | null) => {
     setPair((prev: CurrencyPairType) => ({
       ...prev,
-      value: Number(e.target.value),
+      value: value ? Number(value) : 0,
     }));
   };
 
   return (
     <div className="pair-container">
-      <input
-        type="number"
+      <InputNumber
         value={pair.value}
+        controls={false}
+        min={0}
+        max={1000000000}
         onChange={handleValueChange}
-        id={type}
       />
       <Select
         options={handleOptions()}
         onChange={handleSelectChange}
         value={pair.ccy}
+        placement="topLeft"
       />
     </div>
   );
