@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Swap from "../../assets/svg/Swap";
-import "../../styles/Exchanger/styles.css";
+import "../../assets/styles/Exchanger/styles.css";
 import { Currency, CurrencyPairType, baseCurrencyType } from "../../types";
 import { useExchangeStore } from "../../utils/exchangeStore";
 import CurrencyPair from "./CurrencyPair";

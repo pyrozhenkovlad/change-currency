@@ -1,6 +1,6 @@
 
 import Logo from "../../../assets/svg/Logo";
-import "../../../styles/Header/styles.css";
+import "../../../assets/styles/Header/styles.css";
 
 export const Header = () => {
   return (

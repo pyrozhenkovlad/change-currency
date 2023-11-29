@@ -1,5 +1,5 @@
 import { InputNumber, Select } from "antd";
-import "../../../styles/CurrencyPair/styles.css";
+import "../../../assets/styles/CurrencyPair/styles.css";
 import { Currency, CurrencyPairType, baseCurrencyType } from "../../../types";
 
 

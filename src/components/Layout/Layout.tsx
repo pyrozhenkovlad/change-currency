@@ -1,5 +1,5 @@
 import Footer from "./Footer";
-import "../../styles/Layout/styles.css";
+import "../../assets/styles/Layout/styles.css";
 import Header from "./Header";
 
 type LayoutProps = {
