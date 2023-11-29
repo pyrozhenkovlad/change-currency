@@ -5,6 +5,7 @@ import { Currency } from "../../types";
 
 export const CustomTable = ({ currencies }: { currencies: Currency[] }) => {
   return (
+    <div className="table-container">
     <Table
       columns={tableColumns}
       dataSource={currencies}
@@ -12,5 +13,6 @@ export const CustomTable = ({ currencies }: { currencies: Currency[] }) => {
       rowClassName="table-row"
       pagination={false}
     />
+    </div>
   );
 };

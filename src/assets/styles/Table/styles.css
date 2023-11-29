@@ -1,4 +1,9 @@
-
-.table-row {
+.table-container{
     
 }
+  
+  @media screen and (max-width: 480px) {
+    .table-container {
+      margin-top: 5vh;
+  }
+  }

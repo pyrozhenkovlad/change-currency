@@ -14,6 +14,7 @@
 @media screen and (max-width: 480px) {
     .footer-container {
         height: 25px;
+        margin-bottom: 5vh;
     }
 }
 
