@@ -1,6 +1,24 @@
 .editable-row-container {
+  width: 100px;
+  position: relative;
+}
+
+.editable-row-container input {
+  width: 80px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.editable-row-container input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.editable-row-container input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .editable-row-container:hover {
-  background-color: #E8F3E7;
+  background-color: #e8f3e7;
 }

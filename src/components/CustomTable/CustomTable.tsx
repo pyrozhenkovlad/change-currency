@@ -20,6 +20,7 @@ export const CustomTable = ({ currencies }: { currencies: Currency[] }) => {
       dataIndex: "buy",
       key: "buy",
       align: "center",
+      width: 100,
       render: (_, currency: Currency) => {
         return <EditableRow currency={currency} type="buy" />;
       },
@@ -29,6 +30,7 @@ export const CustomTable = ({ currencies }: { currencies: Currency[] }) => {
       dataIndex: "sale",
       key: "sale",
       align: "center",
+      width: 100,
       render: (_, currency: Currency) => {
         return <EditableRow currency={currency} type="sale" />;
       },
