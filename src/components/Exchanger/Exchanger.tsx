@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Swap from "../../assets/svg/Swap";
 import "../../assets/styles/Exchanger/styles.css";
-import { Currency, CurrencyPairType, baseCurrencyType } from "../../types";
+import { Currency, CurrencyPairType, BaseCurrencyType } from "../../types";
 import { useExchangeStore } from "../../utils/exchangeStore";
 import CurrencyPair from "./CurrencyPair";
 
@@ -68,7 +68,7 @@ export const Exchanger = ({ currencies }: { currencies: Currency[] }) => {
 
   const handleValueChange = (
     value: number | null,
-    pair: CurrencyPairType | baseCurrencyType
+    pair: CurrencyPairType | BaseCurrencyType
   ) => {
     if (pair.ccy === "UAH") {
       exchangeState.setBaseCurrency({ ...pair, value: value ? value : 0 });
@@ -93,7 +93,7 @@ export const Exchanger = ({ currencies }: { currencies: Currency[] }) => {
 
   const handleSelectChange = (
     selectValue: string,
-    pair: CurrencyPairType | baseCurrencyType
+    pair: CurrencyPairType | BaseCurrencyType
   ) => {
     if (selectValue === "UAH") {
       handleSwap();

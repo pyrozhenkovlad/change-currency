@@ -5,7 +5,7 @@ export type Currency = {
   sale: string;
 };
 
-export type baseCurrencyType = {
+export type BaseCurrencyType = {
   value: number;
   ccy: string;
 };

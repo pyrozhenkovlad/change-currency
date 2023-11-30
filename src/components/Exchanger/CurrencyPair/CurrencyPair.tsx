@@ -1,19 +1,19 @@
 import { InputNumber, Select } from "antd";
 import "../../../assets/styles/CurrencyPair/styles.css";
-import { Currency, CurrencyPairType, baseCurrencyType } from "../../../types";
+import { Currency, CurrencyPairType, BaseCurrencyType } from "../../../types";
 
 
 type CurrencyPairProps = {
-  pair: CurrencyPairType | baseCurrencyType;
+  pair: CurrencyPairType | BaseCurrencyType;
   type: "from" | "to";
   currencies: Currency[];
   handleValueChange: (
     value: number | null,
-    pair: CurrencyPairType | baseCurrencyType
+    pair: CurrencyPairType | BaseCurrencyType
   ) => void;
   handleSelectChange: (
     value: string,
-    pair: CurrencyPairType | baseCurrencyType
+    pair: CurrencyPairType | BaseCurrencyType
   ) => void;
 };
 

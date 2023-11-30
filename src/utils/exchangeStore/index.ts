@@ -1,20 +1,20 @@
 import { create } from "zustand";
-import { CurrencyPairType, baseCurrencyType } from "../../types";
+import { CurrencyPairType, BaseCurrencyType } from "../../types";
 
 type exchangeStore = {
-  baseCurrency: baseCurrencyType;
+  baseCurrency: BaseCurrencyType;
   exchangeCurrency: CurrencyPairType;
   exchangeOrder: "buy" | "sale";
   setExchangeOrder: (order: "buy" | "sale") => void;
-  setBaseCurrency: (currency: baseCurrencyType) => void;
+  setBaseCurrency: (currency: BaseCurrencyType) => void;
   setExchangeCurrency: (currency: CurrencyPairType) => void;
   calculateBaseCurrencyChange: (
-    baseCurrency: baseCurrencyType,
+    baseCurrency: BaseCurrencyType,
     exchangeCurrency: CurrencyPairType,
     exchangeOrder: "buy" | "sale"
   ) => void;
   calculateExchangeCurrencyChange: (
-    baseCurrency: baseCurrencyType,
+    baseCurrency: BaseCurrencyType,
     exchangeCurrency: CurrencyPairType,
     exchangeOrder: "buy" | "sale"
   ) => void;
