@@ -20,6 +20,22 @@ export const Exchanger = ({ currencies }: { currencies: Currency[] }) => {
     }
   };
 
+  useEffect(() => {
+    if (exchangeState.exchangeOrder === "buy") {
+      calculate(
+        "base",
+        exchangeState.baseCurrency.value,
+        exchangeState.exchangeCurrency.value
+      );
+    } else {
+      calculate(
+        "exchange",
+        exchangeState.baseCurrency.value,
+        exchangeState.exchangeCurrency.value
+      );
+    }
+  }, [exchangeState.exchangeOrder]);
+
   const calculate = (
     type: "base" | "exchange" | "select",
     baseCurrencyValue: number,
@@ -61,10 +77,6 @@ export const Exchanger = ({ currencies }: { currencies: Currency[] }) => {
       exchangeState.exchangeCurrency.value
     );
   }, [currencies]);
-
-  useEffect(() => {
-    console.log(exchangeState);
-  }, [exchangeState]);
 
   const handleValueChange = (
     value: number | null,

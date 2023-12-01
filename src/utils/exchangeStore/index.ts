@@ -38,9 +38,8 @@ export const useExchangeStore = create<exchangeStore>((set) => ({
   setExchangeCurrency: (currency) => set({ exchangeCurrency: currency }),
   calculateBaseCurrencyChange: (baseCurrency, exchangeCurrency, order) => {
     if (order === "buy") {
-      console.log(baseCurrency.value / Number(exchangeCurrency.buy));
       const newExchangeCurrency = Number(
-        (baseCurrency.value / Number(exchangeCurrency.buy)).toFixed(2)
+        (baseCurrency.value / Number(exchangeCurrency.sale)).toFixed(2)
       );
       set({
         exchangeCurrency: {
@@ -50,7 +49,7 @@ export const useExchangeStore = create<exchangeStore>((set) => ({
       });
     } else {
       const newExchangeCurrency = Number(
-        (baseCurrency.value / Number(exchangeCurrency.sale)).toFixed(2)
+        (baseCurrency.value / Number(exchangeCurrency.buy)).toFixed(2)
       );
       set({
         exchangeCurrency: {
@@ -63,7 +62,7 @@ export const useExchangeStore = create<exchangeStore>((set) => ({
   calculateExchangeCurrencyChange: (baseCurrency, exchangeCurrency, order) => {
     if (order === "buy") {
       const newBaseCurrency = Number(
-        (exchangeCurrency.value * Number(exchangeCurrency.buy)).toFixed(2)
+        (exchangeCurrency.value * Number(exchangeCurrency.sale)).toFixed(2)
       );
       set({
         baseCurrency: {
@@ -73,7 +72,7 @@ export const useExchangeStore = create<exchangeStore>((set) => ({
       });
     } else {
       const newBaseCurrency = Number(
-        (exchangeCurrency.value * Number(exchangeCurrency.sale)).toFixed(2)
+        (exchangeCurrency.value * Number(exchangeCurrency.buy)).toFixed(2)
       );
       set({
         baseCurrency: {

@@ -24,11 +24,19 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
   );
 
   const handleChangeValue = (value: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number(value.target.value) < 0) return;
     const newCurrency = { ...currency, [type]: value.target.value };
     setEditedCurrency(newCurrency);
   };
 
   const handleSaveEdit = () => {
+    if (
+      Number(editedCurrency[type]) < Number(currency[type]) * 0.9 ||
+      Number(editedCurrency[type]) > Number(currency[type]) * 1.1
+    ) {
+      alert("Value must be in range of 10% from current value");
+      return;
+    }
     currencyStore.editCurrency(editedCurrency);
     if (editedCurrency.ccy === selectedExchange.ccy) {
       updateSelectedExchange({
@@ -69,8 +77,6 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
           className="editable-row-input"
           type="number"
           value={editedCurrency[type]}
-          min={Number(editedCurrency[type]) * 0.9}
-          max={Number(editedCurrency[type]) * 1.1}
           onChange={handleChangeValue}
         />
       )}
