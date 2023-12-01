@@ -1,6 +1,16 @@
-
 export const Edit = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={16} height={17} fill="none">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={17}
+    fill="none"
+    style={{
+      position: "absolute",
+      top: "-5px",
+      right: "-5px",
+      cursor: "pointer",
+    }}
+  >
     <path
       fill="#101810"
       fillRule="evenodd"

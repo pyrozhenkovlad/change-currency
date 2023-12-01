@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../../../assets/styles/EditableRow/styles.css";
 import Decline from "../../../assets/svg/Decline";
 import Edit from "../../../assets/svg/Edit";
 import Save from "../../../assets/svg/Save";
+import { useCurrencyStore } from "../../../store/currenciesStore";
+import { useExchangeStore } from "../../../store/exchangeStore";
 import { Currency } from "../../../types";
-import { useCurrencyStore } from "../../../utils/currenciesStore";
-import { useExchangeStore } from "../../../utils/exchangeStore";
+import { validateEditableRowValue } from "../../../utils/rowValueValidator";
 
 type EditableRowProps = {
   currency: Currency;
@@ -17,26 +18,41 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
 
   const [showEditIcon, setShowEditIcon] = useState(false);
   const [openEditInput, setOpenEditInput] = useState(false);
-  const [editedCurrency = currency, setEditedCurrency] = useState<Currency>();
+  const [editedCurrency = currency, setEditedCurrency] =
+    useState<Currency>(currency);
+  const [allowSave, setAllowSave] = useState(true);
   const selectedExchange = useExchangeStore((state) => state.exchangeCurrency);
   const updateSelectedExchange = useExchangeStore(
     (state) => state.setExchangeCurrency
   );
 
+  // useEffect(() => {
+  //   console.log("editedCurrency", editedCurrency);
+  // }, [editedCurrency]);
+
+  // useEffect(() => {
+  //   console.log("allowSave", allowSave);
+  // }, [allowSave]);
+
   const handleChangeValue = (value: React.ChangeEvent<HTMLInputElement>) => {
     if (Number(value.target.value) < 0) return;
+    setAllowSave(true);
     const newCurrency = { ...currency, [type]: value.target.value };
     setEditedCurrency(newCurrency);
+    if (
+      validateEditableRowValue(
+        Number(value.target.value),
+        Number(currency[type])
+      )
+    ) {
+      setAllowSave(true);
+    } else {
+      setAllowSave(false);
+    }
   };
 
   const handleSaveEdit = () => {
-    if (
-      Number(editedCurrency[type]) < Number(currency[type]) * 0.9 ||
-      Number(editedCurrency[type]) > Number(currency[type]) * 1.1
-    ) {
-      alert("Value must be in range of 10% from current value");
-      return;
-    }
+    if (!allowSave) return;
     currencyStore.editCurrency(editedCurrency);
     if (editedCurrency.ccy === selectedExchange.ccy) {
       updateSelectedExchange({
@@ -49,6 +65,7 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
 
   const handleCancelEdit = () => {
     setOpenEditInput(false);
+    setAllowSave(true);
     setEditedCurrency(currency);
   };
 
@@ -81,35 +98,18 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
         />
       )}
       {showEditIcon && (
-        <div
-          onClick={showInputHandler}
-          style={{
-            position: "absolute",
-            top: "-5px",
-            right: "-5px",
-            cursor: "pointer",
-          }}
-        >
+        <div onClick={showInputHandler}>
           <Edit />
         </div>
       )}
       {openEditInput && (
-        <div
-          style={{
-            position: "absolute",
-            top: "-5px",
-            right: "-10px",
-            display: "flex",
-            backgroundColor: "#E7F3E7",
-            height: "17px",
-          }}
-        >
-          <div style={{ cursor: "pointer" }} onClick={handleSaveEdit}>
-            <Save />
-          </div>
-          <div style={{ cursor: "pointer" }} onClick={handleCancelEdit}>
-            <Decline />
-          </div>
+        <div className="editable-row-buttons">
+          <Save
+            disabled={!allowSave}
+            cursor={allowSave ? "pointer" : "not-allowed"}
+            onClick={handleSaveEdit}
+          />
+          <Decline pointer onClick={handleCancelEdit} />
         </div>
       )}
     </div>

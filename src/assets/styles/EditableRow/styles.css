@@ -23,3 +23,13 @@ input::-webkit-inner-spin-button {
   background-color: #e8f3e7;
   border-radius: 4px;
 }
+
+.editable-row-buttons {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  display: flex;
+  background-color: #E7F3E7;
+  height: 17px;
+  border-radius: 4px;
+}

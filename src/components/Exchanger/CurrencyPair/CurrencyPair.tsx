@@ -1,7 +1,7 @@
 import { InputNumber, Select } from "antd";
 import "../../../assets/styles/CurrencyPair/styles.css";
-import { Currency, CurrencyPairType, BaseCurrencyType } from "../../../types";
-
+import { BaseCurrencyType, Currency, CurrencyPairType } from "../../../types";
+import { validateInput } from "../../../utils/inputValidator";
 
 type CurrencyPairProps = {
   pair: CurrencyPairType | BaseCurrencyType;
@@ -49,6 +49,7 @@ export const CurrencyPair = ({
   };
 
   const handleCurrencyValue = (value: number | null) => {
+    if (value !== null && !validateInput(value)) return;
     const currencyValue = value ? value : 0;
     handleValueChange(currencyValue, pair);
   };
@@ -63,7 +64,7 @@ export const CurrencyPair = ({
         value={pair.value}
         controls={false}
         min={0}
-        max={1000000000}
+        max={10000000}
         onChange={handleCurrencyValue}
       />
       <Select

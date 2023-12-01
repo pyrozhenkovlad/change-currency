@@ -1,8 +1,8 @@
 import { Table } from "antd";
+import { ColumnsType } from "antd/es/table";
 import "../../assets/styles/Table/styles.css";
 import { Currency } from "../../types";
 import EditableRow from "./EditableRow";
-import { ColumnsType } from "antd/es/table";
 
 export const CustomTable = ({ currencies }: { currencies: Currency[] }) => {
   const tableColumns: ColumnsType<Currency> = [
