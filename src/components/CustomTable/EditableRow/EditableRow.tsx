@@ -26,14 +26,6 @@ export const EditableRow = ({ currency, type }: EditableRowProps) => {
     (state) => state.setExchangeCurrency
   );
 
-  // useEffect(() => {
-  //   console.log("editedCurrency", editedCurrency);
-  // }, [editedCurrency]);
-
-  // useEffect(() => {
-  //   console.log("allowSave", allowSave);
-  // }, [allowSave]);
-
   const handleChangeValue = (value: React.ChangeEvent<HTMLInputElement>) => {
     if (Number(value.target.value) < 0) return;
     setAllowSave(true);
